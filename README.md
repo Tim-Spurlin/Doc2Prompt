@@ -230,7 +230,7 @@ Doc2Prompt is designed to be a valuable tool for the AI development community, s
 - **GitHub:** [Tim-Spurlin](https://github.com/Tim-Spurlin)
 - **Email:** [Tim.Spurlin@SaphyreSolutions.com](mailto:Tim.Spurlin@SaphyreSolutions.com)
 - **Phone:** 701-941-0811 (Call or text for an immediate response)
-- **LinkedIn:** [Tim Spurlin](https://www.linkedin.com/in/christianspurlin93/)
+- **LinkedIn:** [Professional Profile](https://www.linkedin.com/in/christianspurlin93/)
 - **Organization:** [Saphyre Solutions LLC](https://github.com/Saphyre-Solutions-LLC)
 
 Let's make AI model training more efficient and accessible together!
