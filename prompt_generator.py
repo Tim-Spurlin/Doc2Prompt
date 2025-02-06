@@ -10,10 +10,10 @@ import textwrap
 import csv  # Import the 'csv' module
 
 # --- Configuration ---
-WATCH_FOLDER = r"C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER"
+WATCH_FOLDER = os.path.join(os.path.dirname(__file__), 'converter_folder')
 MODEL_NAME = "models/gemini-1.5-flash-8b-latest"
 GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID"
-OUTPUT_FOLDER = r"C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured"  # Define output folder
+OUTPUT_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), "Structured")  # Define output folder relative to this file's directory
 OUTPUT_CSV_FILENAME = "structured_prompts.csv" # Define CSV filename
 # ---------------------
 
@@ -74,26 +74,14 @@ class DocumentationEventHandler(FileSystemEventHandler):
 
 
 def process_documentation_file(filepath):
-    # Replaced with new function
-    from docx import Document as DocxDocument
-    import PyPDF2
     import textwrap
-    import google.generativeai as genai
-    import os
-    import csv
 
-    # --- Configuration ---
-    WATCH_FOLDER = r"C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER"
-    MODEL_NAME = "models/gemini-1.5-flash-8b-latest"
-    GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID"
-    OUTPUT_FOLDER = r"C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured"
-    OUTPUT_CSV_FILENAME = "structured_prompts.csv"
+    # --- Configuration within function ---
     MAX_RESPONSE_CHARS = 5000  # Define the maximum character limit for responses
+    
+    # Use the same dynamic OUTPUT_FOLDER as defined above
+    csv_filepath = os.path.join(OUTPUT_FOLDER, OUTPUT_CSV_FILENAME)
     # ---------------------
-
-    prompt_template = """Analyze the following page of coding documentation. ... (Your prompt template here) ... Structured Code Generation Training Prompt Output:"""  # Your prompt_template
-
-    # ...existing code...
 
     print(f"Processing file: {filepath}")
     text_content = ""
@@ -110,13 +98,12 @@ def process_documentation_file(filepath):
             print(f"  Extracted text from DOCX file.")
 
         elif file_extension == 'pdf':
-            pdf_file = open(filepath, 'rb')
-            pdf_reader = PyPDF2.PdfReader(pdf_file)
-            num_pages = len(pdf_reader.pages)
-            for page_num in range(num_pages):
-                page = pdf_reader.pages[page_num]
-                text_content += page.extract_text()
-            pdf_file.close()
+            with open(filepath, 'rb') as pdf_file:
+                pdf_reader = PyPDF2.PdfReader(pdf_file)
+                num_pages = len(pdf_reader.pages)
+                for page_num in range(num_pages):
+                    page = pdf_reader.pages[page_num]
+                    text_content += page.extract_text()
             print(f"  Extracted text from PDF file (Number of pages: {num_pages}).")
 
         elif file_extension == 'txt':
@@ -131,8 +118,6 @@ def process_documentation_file(filepath):
         page_length_chars = 1000
         pages = textwrap.wrap(text_content, width=page_length_chars, replace_whitespace=False, drop_whitespace=False)
         print(f"  Split content into {len(pages)} pages.")
-
-        # ...existing code...
 
         for i, page_text in enumerate(pages):
             page_num = i + 1
@@ -170,7 +155,6 @@ def process_documentation_file(filepath):
 
     finally:
         if structured_prompts_for_csv:
-            csv_filepath = os.path.join(OUTPUT_FOLDER, OUTPUT_CSV_FILENAME)
             save_prompts_to_csv(structured_prompts_for_csv, csv_filepath)
             print(f"  Saved structured prompts to CSV file: {csv_filepath}")
         else:
