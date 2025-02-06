@@ -1,0 +1,11 @@
+google-generativeai
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+google-auth
+watchdog
+python-dotenv
+pandas
+python-docx
+PyPDF2
+beautifulsoup4
