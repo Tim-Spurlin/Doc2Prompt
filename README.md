@@ -1,4 +1,4 @@
-# Doc2Prompt 
+# Doc2Prompt
 
 Doc2Prompt is an automated script built by **Tim Spurlin** to convert documentation files into structured prompts, generating a CSV file optimized for AI model training. This tool processes documentation page by page, leveraging AI to create effective structured prompts that capture key information for training models to understand and utilize the documented content. It is designed to streamline the process of preparing high-quality training data from diverse documentation sources.
 
@@ -19,16 +19,16 @@ Doc2Prompt automates the creation of structured prompts from various documentati
   Processes documentation one page at a time to create granular and focused structured prompts for each section of the documentation.
 
 - **Versatile Input Format Support**:  
-  Handles various documentation formats including `.docx`, `.pdf`, `.txt`, and `.html` files, providing flexibility in the types of documentation that can be processed.
+  Handles various documentation formats including .docx, .pdf, .txt, and .html files, providing flexibility in the types of documentation that can be processed.
 
 - **Configurable Output to CSV**:  
-  Outputs the structured prompts in a CSV (`.csv`) format, which is directly compatible with Google AI Studio and other model tuning platforms.
+  Outputs the structured prompts in a CSV (.csv) format, which is directly compatible with Google AI Studio and other model tuning platforms.
 
 - **Handles Long Responses**:  
   Automatically truncates generated structured prompts to adhere to character limits for model tuning, ensuring data validity. Flags truncated responses for user awareness.
 
 - **File System Monitoring**:  
-  Uses file system monitoring (`watchdog`) to automatically detect new documentation files added to a designated folder and process them in real-time.
+  Uses file system monitoring (watchdog) to automatically detect new documentation files added to a designated folder and process them in real-time.
 
 ---
 
@@ -41,7 +41,7 @@ Doc2Prompt automates the creation of structured prompts from various documentati
 
 2. **File Detection and Processing**:  
    When a new documentation file is placed in the watch folder, the script automatically detects it and initiates processing.  
-   It extracts text content from the documentation file, regardless of its format (`.docx`, `.pdf`, `.txt`, `.html`).
+   It extracts text content from the documentation file, regardless of its format (.docx, .pdf, .txt, .html).
 
 3. **Page Splitting**:  
    The extracted text content is intelligently split into manageable "pages" or sections to ensure focused processing and stay within AI model token limits.
@@ -55,7 +55,7 @@ Doc2Prompt automates the creation of structured prompts from various documentati
    The script ensures that the 'response' part of each structured prompt adheres to a 5,000 character limit, truncating if necessary and flagging truncated entries.
 
 6. **CSV Output**:  
-   All generated structured prompts, along with the original page content and truncation flags, are saved into a single CSV file (`structured_prompts.csv`) in a designated output folder.  
+   All generated structured prompts, along with the original page content and truncation flags, are saved into a single CSV file (structured_prompts.csv) in a designated output folder.  
    This CSV file is structured with columns for 'page_content', 'original_response', 'response' (truncated and ready for tuning), and 'truncated' (flag).
 
 ---
@@ -85,30 +85,58 @@ Doc2Prompt is designed to be broadly applicable for anyone needing to create str
 
 ### ⚙️ Setup
 
-1. **Install Python and Dependencies**:  
-   Ensure Python 3.7 or higher is installed.  
-   Create and activate a virtual environment (recommended):  
+1. **Clone the Repository**:  
+   Run the following commands from your terminal:
+
    ```bash
-   python -m venv prompt_env
-   source prompt_env/bin/activate  # Windows: prompt_env\Scripts\activate
-   ```
-   Install required Python libraries using pip:  
-   ```bash
-   pip install google-generativeai google-auth-oauthlib google-auth-httplib2 google-api-python-client google-auth watchdog python-dotenv pandas python-docx PyPDF2 beautifulsoup4
+   git clone https://github.com/Tim-Spurlin/Doc2Prompt.git
+   cd Doc2Prompt
    ```
 
-2. **Configure API Key**:  
-   Open the included `.env` file in the project directory.  
-   Replace the placeholder with your actual Google AI Studio API key:  
+2. **Install Python and Dependencies**:  
+   Ensure Python 3.7 or higher is installed.  
+   Create and activate a virtual environment (recommended):
+
+   **On macOS/Linux:**
+
+   ```bash
+   python -m venv prompt_env
+   source prompt_env/bin/activate
+   ```
+
+   **On Windows:**
+
+   ```bash
+   python -m venv prompt_env
+   prompt_env\Scripts\activate
+   ```
+
+   Install required Python libraries using pip:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure API Key**:  
+   Open the included 
+
+.env
+
+ file in the project directory.  
+   Replace the placeholder with your actual Google AI Studio API key:
+
    ```
    GOOGLE_API_KEY=YOUR_GOOGLE_AI_STUDIO_API_KEY
    ```
 
-3. **Prepare Documentation**:  
-   Place your documentation files (`.docx`, `.pdf`, `.txt`, `.html`) in the designated "STRUCTURED PROMPT CONVERTER" folder on your computer:  
-   `C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER`.  
-   Ensure the "Structured" output folder exists:  
-   `C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured`.
+4. **Prepare Documentation**:  
+   Place your documentation files (.docx, .pdf, .txt, .html) in the designated "STRUCTURED PROMPT CONVERTER" folder on your computer.  
+   Ensure the "Structured" output folder exists:
+
+   ```
+   C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER
+   C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured
+   ```
 
 ### ▶️ Running Doc2Prompt
 
@@ -116,10 +144,16 @@ Doc2Prompt is designed to be broadly applicable for anyone needing to create str
    If you created a virtual environment, activate it in your terminal.
 
 2. **Run the Script**:  
-   Execute the `prompt_generator.py` script from your terminal within Visual Studio Code:  
+   Execute the 
+
+prompt_generator.py
+
+ script from your terminal within Visual Studio Code:
+
    ```bash
    python prompt_generator.py
    ```
+
    The script will start watching the "STRUCTURED PROMPT CONVERTER" folder.
 
 3. **Add Documentation Files**:  
@@ -127,8 +161,12 @@ Doc2Prompt is designed to be broadly applicable for anyone needing to create str
    Doc2Prompt will automatically detect and process these files one by one.
 
 4. **Check Output**:  
-   Once processing is complete, a `structured_prompts.csv` file will be created in the "Structured" output folder:  
-   `C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured`.  
+   Once processing is complete, a `structured_prompts.csv` file will be created in the "Structured" output folder:
+
+   ```
+   C:\Users\timsp\OneDrive\Desktop\STRUCTURED PROMPT CONVERTER\Structured
+   ```
+
    This CSV file contains your structured prompts, ready for import into Google AI Studio or other model tuning platforms.
 
 ---
@@ -137,12 +175,13 @@ Doc2Prompt is designed to be broadly applicable for anyone needing to create str
 
 ```plaintext
 Doc2Prompt/
-├── prompt_env/         # Virtual environment folder (optional)
-├── prompt_generator.py # Main Python script
-├── test_api.py         # Script to test API key setup
 ├── .env                # File to store API key (add to .gitignore)
-├── Structured/         # Output folder for CSV file
+├── .gitignore          # Git ignore file
+├── prompt_generator.py # Main Python script
 ├── README.md           # This README file
+├── requirements.txt    # Python dependencies
+├── test_api.py         # Script to test API key setup
+└── Structured/         # Output folder for CSV file
 ```
 
 ---
@@ -152,7 +191,11 @@ Doc2Prompt/
 For optimal use of Doc2Prompt:
 
 - **Review and Refine Prompt Template**:  
-  Customize the `prompt_template` variable in `prompt_generator.py` to further refine the structure and content of the generated prompts based on your specific documentation and training needs.
+  Customize the `prompt_template` variable in 
+
+prompt_generator.py
+
+ to further refine the structure and content of the generated prompts based on your specific documentation and training needs.
 
 - **Experiment with `page_length_chars`**:  
   Adjust the `page_length_chars` configuration variable to control the granularity of page splitting, balancing context window size and page focus.
@@ -196,7 +239,7 @@ Explore the code, customize it to your needs, and feel free to contribute improv
 
 ## ✍️ Contributing
 
-Contributions to enhance Doc2Prompt are welcome!  Consider contributing improvements to:
+Contributions to enhance Doc2Prompt are welcome! Consider contributing improvements to:
 
 - **Prompt Template Optimization**:  
   Experiment with and suggest improved prompt templates for different types of documentation and training tasks.
